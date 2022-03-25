@@ -29,8 +29,8 @@ public class Main extends Application {
 	private double anchorX, anchorY;
 	private double anchorAngleX = 0;
 	private double anchorAngleY = 0;
-	private final DoubleProperty angleX = new SimpleDoubleProperty(0);
-	private final DoubleProperty angleY = new SimpleDoubleProperty(0);
+	private final DoubleProperty angleX = new SimpleDoubleProperty(21.0);
+	private final DoubleProperty angleY = new SimpleDoubleProperty(46.0);
 	
 	
 	
@@ -41,20 +41,29 @@ public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        
-    	Box box = new Box(100, 20, 50);
     	
-
-    	Sphere sphere = new Sphere(50);
-
-    	sphere.translateXProperty().set(-50);;
     	SmartGroup group = new SmartGroup();
-    	group.getChildren().add(box);
-    	group.getChildren().add(sphere);
+    	
+    	for(int i =-50; i< 50; i++) {
+    		
+    		for(int j = -50; j<50; j++) {
+    			Boite box = new Boite(50, 50, 50, group);
+    			box.translateXProperty().set(i*50);
+    			box.translateZProperty().set(j*50);
+    			
+    		}
+    		
+    	}
+
+    	///Sphere sphere = new Sphere(50);
+
+    	///sphere.translateXProperty().set(-50);;
+
+    	///group.getChildren().add(sphere);
     	
 
     	
-    	group.getChildren().add(prepareSecondBox());
+    	///group.getChildren().add(prepareSecondBox());
     	
     	Camera camera = new PerspectiveCamera();
     	
@@ -62,11 +71,12 @@ public class Main extends Application {
     	scene.setFill(Color.SILVER);
     	scene.setCamera(camera);
     	
-    	group.translateXProperty().set(WIDTH/2);;
-    	group.translateYProperty().set(HEIGHT/2);
-    	group.translateZProperty().set(-1200);
+    	group.translateXProperty().set(0);;
+    	group.translateYProperty().set(0);
+    	group.translateZProperty().set(8000);
 
-    	initMouseControl(group,  scene);
+    	initMouseControl(group,  scene, primaryStage);
+    	
     	
     	primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event->{
     		switch(event.getCode())
@@ -116,7 +126,7 @@ public class Main extends Application {
 		return box;
 	}
 
-	private void initMouseControl(SmartGroup group,Scene  scene) {
+	private void initMouseControl(SmartGroup group,Scene  scene, Stage stage) {
     	Rotate xRotate;
     	Rotate yRotate;
     	group.getTransforms().addAll(
@@ -136,9 +146,16 @@ public class Main extends Application {
     	scene.setOnMouseDragged(event -> {
     		angleX.set(anchorAngleX-(anchorY- event.getSceneY()));
     		angleY.set(anchorAngleY-(anchorX- event.getSceneX()));
+    		System.out.println("l'angle X est :" +angleX.get());
+    		System.out.println("l'angle Y est " +angleY.get());
     		
     	});
     	
+    	stage.addEventHandler(ScrollEvent.SCROLL, event ->{
+    		double delta = event.getDeltaY();
+    		group.translateZProperty().set(group.getTranslateZ() - delta);
+    		System.out.println("La translation Z est :" + group.getTranslateZ());
+    	});
     }
     
     class SmartGroup extends Group{
