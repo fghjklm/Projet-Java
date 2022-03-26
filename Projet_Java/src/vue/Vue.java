@@ -1,28 +1,25 @@
-package application;
-	
+package vue;
 
-import javafx.application.Application;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Point3D;
+
 import javafx.scene.Camera;
 import javafx.scene.Group;
-import javafx.scene.Node;
+
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Sphere;
+
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
-import javafx.scene.shape.Box;
-import javafx.stage.Stage;
+import modele.Boite;
+import modele.Modele;
 import javafx.scene.input.*;
  
-public class Main extends Application {
+public class Vue {
+	
+
     private static final int WIDTH = 1400;
 	private static final int HEIGHT = 800;
 	
@@ -34,22 +31,22 @@ public class Main extends Application {
 	
 	
 	
+
 	
-	public static void main(String[] args) {
-        launch(args);
-    }
-    
-    @Override
-    public void start(Stage primaryStage) {
+	public Scene vueE() {
+		
+		
+		Modele mod = new Modele();
     	
-    	SmartGroup group = new SmartGroup();
+    	Group group = new Group();
     	
     	for(int i =-50; i< 50; i++) {
     		
     		for(int j = -50; j<50; j++) {
-    			Boite box = new Boite(50, 50, 50, group);
+    			Boite box = new Boite(50, 50, 50, group, mod);
     			box.translateXProperty().set(i*50);
     			box.translateZProperty().set(j*50);
+    			box.setDestructible(false);
     			
     		}
     		
@@ -75,58 +72,40 @@ public class Main extends Application {
     	group.translateYProperty().set(0);
     	group.translateZProperty().set(8000);
 
-    	initMouseControl(group,  scene, primaryStage);
+    	initMouseControl(group,  scene);
     	
     	
-    	primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event->{
+    	scene.addEventHandler(KeyEvent.KEY_PRESSED, event->{
     		switch(event.getCode())
     		{
-    		case Z:
-    			group.translateZProperty().set(group.getTranslateZ() + 70);
+    		case W:
+    			mod.setCouleur(Color.WHITE);
     			break;
-    		case S:
-    			group.translateZProperty().set(group.getTranslateZ() - 70);
-    			break;
-    		case A:
-    			group.rotateByX(10);
-    			break;
-    		case E:
-    			group.rotateByX(-10);
+    		case B:
+    			mod.setCouleur(Color.BLUE);
     			break;
     		
-	    	case Q:
-				group.rotateByY(10);
+	    	case R:
+				mod.setCouleur(Color.RED);
 				break;
 			
-	    	case D:
-				group.rotateByY(-10);
+	    	case V:
+				mod.setCouleur(Color.GREEN);
+				break;
+			default:
 				break;
     
 		}
     		
     	});
-    	
-    	primaryStage.setTitle("Genuine Coder");
-    	primaryStage.setScene(scene);
-    	primaryStage.show();
-    	
-    	
-    	
-
-    	
-    	
-    }
-    
-    private Node prepareSecondBox() {
-    	;
-    	Box box = new Box(20, 50, 100);
-    	box.translateXProperty().set(50);;
-    	box.translateYProperty().set(0);
 		
-		return box;
+		
+		return scene;
+		
 	}
 
-	private void initMouseControl(SmartGroup group,Scene  scene, Stage stage) {
+
+	private void initMouseControl(Group group,Scene  scene) {
     	Rotate xRotate;
     	Rotate yRotate;
     	group.getTransforms().addAll(
@@ -151,37 +130,12 @@ public class Main extends Application {
     		
     	});
     	
-    	stage.addEventHandler(ScrollEvent.SCROLL, event ->{
+    	scene.addEventHandler(ScrollEvent.SCROLL, event ->{
     		double delta = event.getDeltaY();
     		group.translateZProperty().set(group.getTranslateZ() - delta);
     		System.out.println("La translation Z est :" + group.getTranslateZ());
     	});
-    }
-    
-    class SmartGroup extends Group{
-    	
-    	Rotate r;
-    	
-    	Transform t = new Rotate();
-    	
-    	void rotateByX(int ang) {
-    		
-    		r = new Rotate(ang, Rotate.X_AXIS);
-    		t = t.createConcatenation(r);
-    		this.getTransforms().clear();
-    		this.getTransforms().addAll(t);
-    	}
-    	
-		void rotateByY(int ang) {
-			
-		    		
-		    r = new Rotate(ang, Rotate.Y_AXIS);
-		    t = t.createConcatenation(r);
-		    this.getTransforms().clear();
-		    this.getTransforms().addAll(t);
-		}
+		
+	}
 
-    	
-    	
-    }
 }
