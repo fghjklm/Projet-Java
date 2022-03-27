@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 
 import javafx.scene.transform.Rotate;
-import modele.Boite;
 import modele.Modele;
 import javafx.scene.input.*;
  
@@ -33,24 +32,14 @@ public class Vue {
 	
 
 	
-	public Scene vueE() {
+	public Scene getScene() {
 		
 		
 		Modele mod = new Modele();
     	
-    	Group group = new Group();
+    	Group group = mod.getTerrain();
     	
-    	for(int i =-50; i< 50; i++) {
-    		
-    		for(int j = -50; j<50; j++) {
-    			Boite box = new Boite(50, 50, 50, group, mod);
-    			box.translateXProperty().set(i*50);
-    			box.translateZProperty().set(j*50);
-    			box.setDestructible(false);
-    			
-    		}
-    		
-    	}
+    	
 
     	///Sphere sphere = new Sphere(50);
 
@@ -125,15 +114,12 @@ public class Vue {
     	scene.setOnMouseDragged(event -> {
     		angleX.set(anchorAngleX-(anchorY- event.getSceneY()));
     		angleY.set(anchorAngleY-(anchorX- event.getSceneX()));
-    		System.out.println("l'angle X est :" +angleX.get());
-    		System.out.println("l'angle Y est " +angleY.get());
     		
     	});
     	
     	scene.addEventHandler(ScrollEvent.SCROLL, event ->{
     		double delta = event.getDeltaY();
     		group.translateZProperty().set(group.getTranslateZ() - delta);
-    		System.out.println("La translation Z est :" + group.getTranslateZ());
     	});
 		
 	}

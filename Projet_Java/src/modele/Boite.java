@@ -1,98 +1,48 @@
 package modele;
 
-import javafx.scene.Group;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Shape3D;
 
-public class Boite extends Box{
+public class Boite extends Element{
 	
 	public int hauteur, largeur, longueur;
-	public Boite fils;
-	public Boite pere;
-	public Group group;
-	private boolean destructible;
+
 	
-	public Boite(int longu, int haut,int larg, Group group, Modele mod) {
-		super(longu, haut, larg);
+	public Boite(int longu, int haut,int larg, Modele mod, Element pere) {
+		super(mod, pere);
+		Box b = new Box(longu, haut, larg);
 		this.hauteur = haut;
 		this.largeur = larg;
 		this.longueur  =longu;
-		this.group = group;
+		this.setShape(b);
 		this.setDestructible(true);
-		group.getChildren().add(this);
 		PhongMaterial material = new PhongMaterial();
-		
-		switch(mod.getEtat()) {
-
-		case COULEUR:
-			material.setDiffuseColor(mod.getCouleur());
-		
-		case TEXTURE:
-			material.setDiffuseMap(mod.getTexture());
+		if (pere != null) {
+			Shape3D pereShape = pere.getShape();
+			this.getShape().translateXProperty().set(pereShape.getTranslateX());
+			this.getShape().translateYProperty().set(pereShape.getTranslateY() - 50);
+			this.getShape().translateZProperty().set(pereShape.getTranslateZ());
 			
 		}
-		this.setMaterial(material);
 		
-		
-		
-		this.setOnMousePressed(event -> {
-		    {
-		    	if (event.isPrimaryButtonDown()) {
-		    		if (this.fils == null) {
-		    			Boite b1 = new Boite(this.longueur, this.hauteur, this.largeur, group, mod);
-			    		b1.pere = this;
-			    		this.fils = b1;
-			    		
-			    		System.out.println(this.getTranslateY());
-			    		
-			    			
-			    		b1.translateYProperty().set(this.getTranslateY() - this.hauteur);
-			    		b1.translateXProperty().set(this.getTranslateX());
-			    		b1.translateZProperty().set(this.getTranslateZ());
-		    			
-		    		}
-		    		
-		    	}
-		    	              
-		    	}
-		    	 if (event.isSecondaryButtonDown()) {	
-		    		if (this.destructible) {
-		    			if(this.pere != null) {
-				    		this.pere.fils = null;		
-		    			}
-		    			this.removeFils();
-		    		}
+		switch(this.modele.getEtat()) {
 
-		    	              
-		    	}
-
-    	});
+		case COULEUR:
+			material.setDiffuseColor(this.modele.getCouleur());
 		
-	}
-
-	private void removeFils() {
-		group.getChildren().remove(this);
-		if (this.fils!= null) {
-			this.fils.removeFils();
+		case TEXTURE:
+			material.setDiffuseMap(this.modele.getTexture());
+			
 		}
+		b.setMaterial(material);
 		
-	}
-	
-	public void remove() {
-		group.getChildren().remove(this);
+		
+		
+		
+		
 	}
 
-	public boolean isDestructible() {
-		return destructible;
-	}
-
-	public void setDestructible(boolean destructible) {
-		this.destructible = destructible;
-	}
 	
-		
-		
-		
-		
 
 }

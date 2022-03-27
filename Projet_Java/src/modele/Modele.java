@@ -6,10 +6,15 @@ public class Modele {
 	
 	private Color couleur;
 	private Image texture;
+
+	private Groupe terrain;
 	public enum Etat {
 		COULEUR, TEXTURE
 	}
-	
+	public enum Element_a_ajouter{
+		BOITE
+	}
+	private Element_a_ajouter element_a_ajouter;
 	private  Etat etat;
 	
 	public Modele() {
@@ -17,6 +22,21 @@ public class Modele {
 		this.couleur = Color.SILVER;
 		this.texture = null;
 		this.etat = Etat.COULEUR;
+		this.setTerrain(new Groupe());
+		for(int i =-50; i< 50; i++) {	
+    		for(int j = -50; j<50; j++) {
+    			Boite box = new Boite(50, 50, 50, this, null);
+    			box.getShape().translateXProperty().set(i*50);
+    			box.getShape().translateZProperty().set(j*50);
+    			box.setDestructible(false);
+    			this.getTerrain().getChildren().add(box.getShape());
+    			
+    		}
+    		
+    	}
+		this.setElement_a_ajouter(Element_a_ajouter.BOITE);
+		
+		
 		
 	}
 
@@ -44,6 +64,48 @@ public class Modele {
 
 	public void setTexture(Image texture) {
 		this.texture = texture;
+	}
+	
+
+
+
+	public Groupe getTerrain() {
+		return terrain;
+	}
+
+
+
+	public void setTerrain(Groupe terrain) {
+		this.terrain = terrain;
+	}
+
+
+
+	public Element_a_ajouter getElement_a_ajouter() {
+		return element_a_ajouter;
+	}
+
+
+
+	public void setElement_a_ajouter(Element_a_ajouter element_a_ajouter) {
+		this.element_a_ajouter = element_a_ajouter;
+	}
+
+
+
+	public Element ajouter(Element pere) {
+		Element elem = null;
+		switch(this.getElement_a_ajouter()) {
+		case BOITE:
+			Boite b1 = new Boite(50, 50, 50, this, pere);
+			this.terrain.getChildren().add(b1.getShape());
+			elem = b1;
+		}
+		return elem;
+			
+		
+
+		
 	}
 	
 	

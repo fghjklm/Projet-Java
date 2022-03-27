@@ -16,7 +16,7 @@ public class Lego extends Application {
     public void start(Stage primaryStage) {
     	Vue vue = new Vue();
     	primaryStage.setTitle("Lego");
-    	primaryStage.setScene(vue.vueE());
+    	primaryStage.setScene(vue.getScene());
     	primaryStage.show();
 	
     }
