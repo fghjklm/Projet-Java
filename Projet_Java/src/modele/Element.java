@@ -23,7 +23,7 @@ public class Element{
 		
 		
 	}
-	private void removeFils() {
+	private void supprimerFils() {
 		
 		Stack<Element> stack = new Stack<Element>();
 
@@ -32,7 +32,7 @@ public class Element{
 			
 		}
 		while(!(stack.isEmpty())){
-			stack.pop().removeFils();
+			stack.pop().supprimerFils();
 		}
 		if (this.pere != null) {
 			this.pere.fils.remove(this);
@@ -42,10 +42,14 @@ public class Element{
 		
 	}
 	
-	private void remove() {
+	private void supprimer() {
 		
 		if (this.pere != null) {
 			this.pere.fils.remove(this);
+		}
+		for(Element elem : this.fils) {
+			elem.pere = null;
+			
 		}
 		this.modele.getTerrain().getChildren().remove(this.getShape());
 		
@@ -56,12 +60,9 @@ public class Element{
 		shape.setOnMousePressed(event -> {
 		    {
 		    	if (event.isPrimaryButtonDown()) {
-		    		if (this.fils.isEmpty()) {
-		    			System.out.println("oui");
-		    			
+		    		if (this.fils.isEmpty()) {		    			
 		    			Element elem = this.modele.ajouter(this);
 		    			this.fils.add(elem);
-		    			System.out.println(this.fils.toString());
 		    			
 		    		}
 		    		
@@ -75,7 +76,7 @@ public class Element{
 				    		this.pere.fils.remove(this);
 				    		System.out.println(this.pere.fils);
 		    			}
-		    			this.remove();
+		    			this.supprimer();
 		    			
 		    		}
 

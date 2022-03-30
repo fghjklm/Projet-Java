@@ -45,8 +45,7 @@ public class Vue3D {
     	scene.setFill(Color.SILVER);
     	scene.setCamera(camera);
     	
-    	group.translateXProperty().set(0);;
-    	group.translateYProperty().set(0);
+
     	group.translateZProperty().set(3000);
 
     	initMouseControl(group,  scene);

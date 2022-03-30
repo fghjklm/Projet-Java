@@ -1,13 +1,17 @@
 package modele;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 public class Modele {
 	
 	private Color couleur;
 	private Image texture;
-	public int largeur = 25;
-	public int longueur  = 25;
+	public int largeur = 50;
+	public int longueur  = 50;
+    private final DoubleProperty larg = new SimpleDoubleProperty(largeur);
+    private final DoubleProperty longu = new SimpleDoubleProperty(longueur);
 
 	private Groupe terrain;
 	public enum Etat {
@@ -37,8 +41,10 @@ public class Modele {
     		
     	}
 		this.setElement_a_ajouter(Element_a_ajouter.BOITE);
-		this.getTerrain().translateZProperty().set(-(longueur*50)/2);;
-		this.getTerrain().translateZProperty().set((largeur*50)/2);;
+    	this.getTerrain().translateXProperty().bind(larg);;
+    	this.getTerrain().translateYProperty().bind(longu);
+
+
 		
 		
 	}
@@ -73,7 +79,7 @@ public class Modele {
 
 
 	public Groupe getTerrain() {
-		return terrain;
+		return this.terrain;
 	}
 
 
