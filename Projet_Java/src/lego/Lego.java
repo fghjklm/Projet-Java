@@ -3,7 +3,7 @@ package lego;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import vue.Vue;
+import vue.Vue3D;
 
  
 public class Lego extends Application {
@@ -14,7 +14,7 @@ public class Lego extends Application {
 	
     @Override
     public void start(Stage primaryStage) {
-    	Vue vue = new Vue();
+    	Vue3D vue = new Vue3D();
     	primaryStage.setTitle("Lego");
     	primaryStage.setScene(vue.getScene());
     	primaryStage.show();

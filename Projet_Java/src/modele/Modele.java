@@ -6,6 +6,8 @@ public class Modele {
 	
 	private Color couleur;
 	private Image texture;
+	public int largeur = 25;
+	public int longueur  = 25;
 
 	private Groupe terrain;
 	public enum Etat {
@@ -23,8 +25,8 @@ public class Modele {
 		this.texture = null;
 		this.etat = Etat.COULEUR;
 		this.setTerrain(new Groupe());
-		for(int i =-50; i< 50; i++) {	
-    		for(int j = -50; j<50; j++) {
+		for(int i =0; i< largeur; i++) {	
+    		for(int j = 0; j<longueur; j++) {
     			Boite box = new Boite(50, 50, 50, this, null);
     			box.getShape().translateXProperty().set(i*50);
     			box.getShape().translateZProperty().set(j*50);
@@ -35,7 +37,8 @@ public class Modele {
     		
     	}
 		this.setElement_a_ajouter(Element_a_ajouter.BOITE);
-		
+		this.getTerrain().translateZProperty().set(-(longueur*50)/2);;
+		this.getTerrain().translateZProperty().set((largeur*50)/2);;
 		
 		
 	}

@@ -6,7 +6,7 @@ import javafx.scene.shape.Shape3D;
 
 public class Boite extends Element{
 	
-	public int hauteur, largeur, longueur;
+	public int largeur, longueur;
 
 	
 	public Boite(int longu, int haut,int larg, Modele mod, Element pere) {
@@ -21,7 +21,7 @@ public class Boite extends Element{
 		if (pere != null) {
 			Shape3D pereShape = pere.getShape();
 			this.getShape().translateXProperty().set(pereShape.getTranslateX());
-			this.getShape().translateYProperty().set(pereShape.getTranslateY() - 50);
+			this.getShape().translateYProperty().set(pereShape.getTranslateY() - this.pere.hauteur);
 			this.getShape().translateZProperty().set(pereShape.getTranslateZ());
 			
 		}

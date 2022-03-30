@@ -16,7 +16,7 @@ import javafx.scene.transform.Rotate;
 import modele.Modele;
 import javafx.scene.input.*;
  
-public class Vue {
+public class Vue3D {
 	
 
     private static final int WIDTH = 1400;
@@ -39,18 +39,6 @@ public class Vue {
     	
     	Group group = mod.getTerrain();
     	
-    	
-
-    	///Sphere sphere = new Sphere(50);
-
-    	///sphere.translateXProperty().set(-50);;
-
-    	///group.getChildren().add(sphere);
-    	
-
-    	
-    	///group.getChildren().add(prepareSecondBox());
-    	
     	Camera camera = new PerspectiveCamera();
     	
     	Scene scene = new Scene(group,WIDTH,HEIGHT, true);
@@ -59,7 +47,7 @@ public class Vue {
     	
     	group.translateXProperty().set(0);;
     	group.translateYProperty().set(0);
-    	group.translateZProperty().set(8000);
+    	group.translateZProperty().set(3000);
 
     	initMouseControl(group,  scene);
     	
@@ -119,7 +107,7 @@ public class Vue {
     	
     	scene.addEventHandler(ScrollEvent.SCROLL, event ->{
     		double delta = event.getDeltaY();
-    		group.translateZProperty().set(group.getTranslateZ() - delta);
+    		group.translateZProperty().set(group.getTranslateZ() - 10*delta);
     	});
 		
 	}
