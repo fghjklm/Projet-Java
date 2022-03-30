@@ -14,6 +14,7 @@ public class Element{
 	public Modele modele;
 	private boolean destructible;
 	private Shape3D shape;
+	public int hauteur;
 	
 	public Element(Modele mod, Element pere) {
 		this.fils = new ArrayList<Element>();
@@ -41,6 +42,15 @@ public class Element{
 		
 	}
 	
+	private void remove() {
+		
+		if (this.pere != null) {
+			this.pere.fils.remove(this);
+		}
+		this.modele.getTerrain().getChildren().remove(this.getShape());
+		
+	}
+	
 	public void setShape(Shape3D sh) {
 		this.shape = sh;
 		shape.setOnMousePressed(event -> {
@@ -65,7 +75,7 @@ public class Element{
 				    		this.pere.fils.remove(this);
 				    		System.out.println(this.pere.fils);
 		    			}
-		    			this.removeFils();
+		    			this.remove();
 		    			
 		    		}
 
