@@ -9,7 +9,7 @@ public class Modele {
 	private Color couleur;
 	private Image texture;
 	public int largeur = 50;
-	public int longueur  = 50;
+	public int longueur  = 60;
     private final DoubleProperty larg = new SimpleDoubleProperty(largeur);
     private final DoubleProperty longu = new SimpleDoubleProperty(longueur);
 
